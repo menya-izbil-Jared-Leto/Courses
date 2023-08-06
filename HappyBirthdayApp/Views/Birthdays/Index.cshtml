@@ -1,0 +1,45 @@
+﻿@model IEnumerable<HappyBirthdayApp.Models.Birthday>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>All Birthdays</h2>
+<br />
+<p>
+    <a asp-action="Create" class="btn btn-primary btn-lg">Create New</a>
+</p>
+
+<table class="table table-borderless table-hover align-middle">
+    <thead>
+        <tr class="border-bottom border-primary">
+            <th width="300">Img</th>
+            <th width="300">Name</th>
+            <th width="300">Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var birthday in Model)
+        {
+            <tr>
+                <td>
+                    @if (birthday.Img != null && birthday.Img.Length > 0)
+                    {
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(birthday.Img)" class="rounded-circle"  alt="@birthday.Name" width="60" height="60" />
+                    }
+                    else
+                    {
+                        <img src="@("/image/NoPP.jpg")" class="rounded-circle" width="60" height="60" />
+                    }
+                </td>
+                <td>@birthday.Name</td>
+                <td>@birthday.Date.ToShortDateString()</td>
+                <td>
+                    <a href="@Url.Action("Edit", new { id = birthday.Id })" class="btn btn-info">Edit</a> 
+                    <a href="@Url.Action("Delete", new { id = birthday.Id })" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
